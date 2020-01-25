@@ -1,0 +1,13 @@
+{
+    "name": "jan/residenz-bahn-tracker",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jan-David Siegl",
+            "email": "jan.siegl@gmx.de"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5"
+    }
+}
