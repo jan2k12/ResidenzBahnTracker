@@ -7,7 +7,17 @@
             "email": "jan.siegl@gmx.de"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "RbTracker\\": "src/rbTracker",
+            "Monolog\\": "src/logger/"
+
+        }
+    },
     "require": {
-        "php": "^7.2.5"
+        "php": "^7.2.5",
+        "guzzlehttp/guzzle": "~6.0",
+        "monolog/monolog": "^2.0",
+        "doctrine/orm": "^2.7"
     }
 }
