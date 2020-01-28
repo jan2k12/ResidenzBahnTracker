@@ -1,5 +1,6 @@
 <?php
 
-require_once "src/rbTracker/app/bootstrap.php";
+require __DIR__."/src/app/bootstrap.php";
 
-echo "hallo";
+
+

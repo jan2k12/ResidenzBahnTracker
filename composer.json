@@ -10,7 +10,8 @@
     "autoload": {
         "psr-4": {
             "RbTracker\\": "src/rbTracker",
-            "Monolog\\": "src/logger/"
+            "Monolog\\": "src/logger/",
+            "Tests\\": "src/Tests"
 
         }
     },
@@ -18,6 +19,11 @@
         "php": "^7.2.5",
         "guzzlehttp/guzzle": "~6.0",
         "monolog/monolog": "^2.0",
-        "doctrine/orm": "^2.7"
+        "doctrine/orm": "^2.7",
+        "symfony/console": "^5.0",
+        "vlucas/phpdotenv": "^4.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
     }
 }
