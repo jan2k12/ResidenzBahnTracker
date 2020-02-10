@@ -4,6 +4,8 @@
 namespace RbTracker\Commands;
 
 
+use RbTracker\Parser\ConnectionSaver;
+use RbTracker\Requests\LastHourAllStationsRequest;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +31,15 @@ class GetDataFromLastHourCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("Starting Request");
-        $resultXml=(new \RbTracker\Requests\RequestHandler())->getRequestResult();
+        $connectionResultXml=(new LastHourAllStationsRequest())->getRequestResult();
+        $output->writeln('Got Data - now save connections');
+        (new ConnectionSaver($connectionResultXml))->parseAndSaveFromXml();
+       /* $changesXml=(new LastHourAllStationsChangesRequest())->getRequestResult();
+        (new ChangeSaver($changesXml))->parseAndSaveFromXml();*/
+
+
+        return 0;
+
 
 
     }
