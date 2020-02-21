@@ -24,7 +24,7 @@ class Connection
     protected $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      * @var int
      */
     protected $uniqueTripId;
@@ -40,6 +40,13 @@ class Connection
      * @var int
      */
     protected $tripStopNo;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $station;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="TripLabel",inversedBy="connections")
@@ -60,6 +67,23 @@ class Connection
     {
         $this->events=new ArrayCollection();
     }
+
+    /**
+     * @return string
+     */
+    public function getStation(): string
+    {
+        return $this->station;
+    }
+
+    /**
+     * @param string $station
+     */
+    public function setStation(string $station): void
+    {
+        $this->station = $station;
+    }
+
 
     /**
      * @return int

@@ -38,39 +38,42 @@ class ConnectionSaver
         foreach ($simpleXmlParser->s as $connection) {
 
             $fullId = (string)($connection->attributes())['id'];
-
+            if(substr($fullId,0,1)=='-'){
+                $fullId=ltrim($fullId,'-');
+            }
             $explodedId = explode('-', $fullId);
             $uniqueId = $explodedId[0];
             $startDateTime = \DateTime::createFromFormat('ymdHi', $explodedId[1]);
             $tripStopNo = $explodedId[2];
 
-            $connectionModel = $this->em->getRepository(Connection::class)->findBy(['uniqueTripId' => $uniqueId]);
+            $connectionModel = $this->em->getRepository(Connection::class)->findOneBy(['uniqueTripId' => $uniqueId]);
             if (!$connectionModel) {
                 $connectionModel = new Connection();
             }
             $connectionModel->setStartDateTime($startDateTime);
             $connectionModel->setTripStopNo($tripStopNo);
-            $connectionModel->setUniqueTripId($uniqueId);
-
-            if ($triplabel = $connection->children('tl')) {
+            $connectionModel->setUniqueTripId((integer)$uniqueId);
+            $connectionModel->setStation($station);
+            if ($triplabel = $connection->tl) {
                 $tripLabelAttributes = $triplabel->attributes();
                 $organisation = (string)$tripLabelAttributes['o'];
                 $type = (string)$tripLabelAttributes['c'];
                 $number = (string)$tripLabelAttributes['n'];
 
-                $triplabelModel = $this->em->getRepository(TripLabel::class)->findBy(['type' => $type,'number'=>$number,'organisation'=>$organisation]);
+                $triplabelModel = $this->em->getRepository(TripLabel::class)->findOneBy(['type' => $type,'number'=>$number,'organisation'=>$organisation]);
                 if (!$triplabelModel) {
                     $triplabelModel = new TripLabel();
                 }
-                $triplabelModel = new TripLabel();
+
                 $triplabelModel->setType($type);
                 $triplabelModel->setNumber($number);
                 $triplabelModel->setOrganisation($organisation);
-                $triplabelModel->setConnections($connectionModel);
+                $connectionModel->setTripLabel($triplabelModel);
+                $triplabelModel->addConnection($connectionModel);
                 $this->em->persist($triplabelModel);
             }
 
-            if ($arrival = $connection->children('ar')) {
+            if ($arrival = $connection->ar) {
                 $arrivalAttributes = $arrival->attributes();
                 $planedArrival = \DateTime::createFromFormat('ymdHi',(string)$arrivalAttributes['pt']);
                 $plannedPlatform = (string)$arrivalAttributes['pp'];
@@ -82,11 +85,11 @@ class ConnectionSaver
                 $event->setPlanedPlatform($plannedPlatform);
                 $event->setPlanedTime($planedArrival);
                 $event->setFromDirection($fromDirection);
-                $event->setConnections($connectionModel);
+                $event->setConnection($connectionModel);
                 $this->em->persist($event);
 
             }
-            if ($departure = $connection->children('dp')) {
+            if ($departure = $connection->dp) {
                 $departureAttributes = $departure->attributes();
                 $planedDeparture = \DateTime::createFromFormat('ymdHi',(string)$departureAttributes['pt']);
                 $plannedDepaturePlatform = (string)$departureAttributes['pp'];
@@ -97,11 +100,13 @@ class ConnectionSaver
                 $event->setType('departure');
                 $event->setPlanedPlatform($plannedDepaturePlatform);
                 $event->setPlanedTime($planedDeparture);
-                $event->setFromDirection($fromDirection);
-                $event->setConnections($connectionModel);
+                $event->setToDirection($toDirection);
+                $event->setConnection($connectionModel);
                 $this->em->persist($event);
 
             }
+            $this->em->persist($connectionModel);
+            $this->em->flush();
 
 
         }

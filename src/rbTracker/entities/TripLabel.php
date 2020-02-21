@@ -132,4 +132,8 @@ class TripLabel
     }
 
 
+    public function addConnection(Connection $con){
+        $this->connections->add($con);
+    }
+
 }

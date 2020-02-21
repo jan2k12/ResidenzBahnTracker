@@ -56,9 +56,9 @@ class TimeTableEvent
 
     /**
      * @ORM\ManyToOne(targetEntity="Connection",inversedBy="events")
-     * @var ArrayCollection
+     * @var Connection
      */
-    protected $connections;
+    protected $connection;
 
     /**
      * @return int
@@ -109,11 +109,11 @@ class TimeTableEvent
     }
 
     /**
-     * @return ArrayCollection
+     * @return Connection
      */
-    public function getConnections(): ArrayCollection
+    public function getConnection(): Connection
     {
-        return $this->connections;
+        return $this->connection;
     }
 
     /**
@@ -157,12 +157,13 @@ class TimeTableEvent
     }
 
     /**
-     * @param ArrayCollection $connections
+     * @param Connection $connection
      */
-    public function setConnections(ArrayCollection $connections): void
+    public function setConnection(Connection $connection): void
     {
-        $this->connections = $connections;
+        $this->connection = $connection;
     }
+
 
 
 }
