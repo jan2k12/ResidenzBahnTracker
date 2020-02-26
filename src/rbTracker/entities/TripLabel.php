@@ -16,8 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
 class TripLabel
 {
 
-
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

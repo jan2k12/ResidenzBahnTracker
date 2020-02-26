@@ -6,7 +6,7 @@ namespace RbTracker\Requests;
 
 class LastHourAllStationsChangesRequest extends AbstractBasicRequest
 {
-    const QUERY_STRING = "rchg/{evaNo}";
+    const QUERY_STRING = "fchg/{evaNo}";
 
 
     protected $uri = "timetables/v1/";

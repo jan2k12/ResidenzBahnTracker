@@ -4,6 +4,7 @@
 namespace RbTracker\Commands;
 
 
+use RbTracker\Parser\ChangeSaver;
 use RbTracker\Parser\ConnectionSaver;
 use RbTracker\Requests\LastHourAllStationsRequest;
 use RbTracker\Requests\LastHourAllStationsChangesRequest;
@@ -35,11 +36,18 @@ class GetDataFromLastHourCommand extends Command
         $connectionResultXml = (new LastHourAllStationsRequest())->getRequestResult();
         $output->writeln('Got Data - now save connections');
         (new ConnectionSaver($connectionResultXml))->parseAndSaveFromXml();
+        $output->writeln('Get Change Data');
         $changesXml = (new LastHourAllStationsChangesRequest())->getRequestResult();
-        (new ChangeSaver($changesXml))->parseAndSaveFromXml();
+        $output->writeln('Save Change Data');
+        $status=(new ChangeSaver($changesXml))->parseAndSaveFromXml();
+        if($status!=1){
+            $output->writeln(implode('\r\n',$status));
+            return 500;
+        }else{
+            $output->writeln('success');
+            return 1;
+        }
 
-
-        return 0;
     }
 
 
