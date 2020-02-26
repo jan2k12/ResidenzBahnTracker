@@ -55,6 +55,12 @@ class Change
     protected $changedPlatform;
 
     /**
+     * @ORM\Column(type="boolean",options={"default": false})
+     * @var boolean
+     */
+    protected $canceled;
+
+    /**
      * @ORM\Column(type="string")
      * @var string
      */
@@ -68,6 +74,23 @@ class Change
     {
 
     }
+
+    /**
+     * @return bool
+     */
+    public function isCanceled(): bool
+    {
+        return $this->canceled;
+    }
+
+    /**
+     * @param bool $canceled
+     */
+    public function setCanceled(bool $canceled): void
+    {
+        $this->canceled = $canceled;
+    }
+
 
 
     /**
@@ -157,22 +180,6 @@ class Change
     public function setChangedPlatform(int $changedPlatform): void
     {
         $this->changedPlatform = $changedPlatform;
-    }
-
-    /**
-     * @return string
-     */
-    public function getChangedStatus(): string
-    {
-        return $this->changedStatus;
-    }
-
-    /**
-     * @param string $changedStatus
-     */
-    public function setChangedStatus(string $changedStatus): void
-    {
-        $this->changedStatus = $changedStatus;
     }
 
     /**

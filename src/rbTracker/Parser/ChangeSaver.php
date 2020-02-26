@@ -148,6 +148,10 @@ class ChangeSaver
         $changeTime = (string)($element->attributes())['ct'];
         $changePlatform = (string)($element->attributes())['cp'];
         $changePath = (string)($element->attributes())['cpth'];
+        $status = (string)($element->attributes())['cs'];
+        if($status=="c"){
+            $change->setCanceled(true);
+        }
         if ($changeTime) {
             $time = $this->buildTime($changeTime);
             $change->setChangedTime($time);
