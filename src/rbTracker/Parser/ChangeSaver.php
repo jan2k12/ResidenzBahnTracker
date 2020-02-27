@@ -151,6 +151,8 @@ class ChangeSaver
         $status = (string)($element->attributes())['cs'];
         if($status=="c"){
             $change->setCanceled(true);
+        }else{
+            $change->setCanceled(false);
         }
         if ($changeTime) {
             $time = $this->buildTime($changeTime);

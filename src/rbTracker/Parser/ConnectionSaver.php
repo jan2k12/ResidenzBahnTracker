@@ -46,7 +46,11 @@ class ConnectionSaver
             $startDateTime = \DateTime::createFromFormat('ymdHi', $explodedId[1]);
             $tripStopNo = $explodedId[2];
 
-            $connectionModel = $this->em->getRepository(Connection::class)->findOneBy(['uniqueTripId' => $uniqueId]);
+            $connectionModel = $this->em->getRepository(Connection::class)->findOneBy([
+                'uniqueTripId' => $uniqueId,
+                'startDateTime' => $startDateTime,
+                'tripStopNo' => $tripStopNo
+            ]);
             if (!$connectionModel) {
                 $connectionModel = new Connection();
             }
